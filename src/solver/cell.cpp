@@ -34,8 +34,8 @@ void Cell::update() {
 	}
 }
 
-bool Cell::could_be(int value) const {
-	return options.contains(value);
+bool Cell::could_be(int n) const {
+	return options.contains(n);
 }
 
 }
