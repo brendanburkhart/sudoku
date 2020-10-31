@@ -88,14 +88,9 @@ TEST(OptionsTest, combine) {
 
     options &= other;
 
-    EXPECT_EQ(false, options.contains(1));
-    EXPECT_EQ(false, options.contains(2));
-    EXPECT_EQ(false, options.contains(3));
-    EXPECT_EQ(false, options.contains(4));
-    EXPECT_EQ(false, options.contains(5));
-    EXPECT_EQ(false, options.contains(6));
-    EXPECT_EQ(false, options.contains(7));
-    EXPECT_EQ(false, options.contains(9));
+    for (int n = 1; n <= 9; n++) {
+        EXPECT_EQ(n == 8, options.contains(n));
+    }
 
     EXPECT_EQ(true, options.solved());
     EXPECT_EQ(8, options.value());
