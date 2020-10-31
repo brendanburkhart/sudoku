@@ -15,7 +15,7 @@ TEST(OptionsTest, contains_single) {
 }
 
 TEST(OptionsTest, solved_single) {
-    solver::Options all;
+    const solver::Options all;
     EXPECT_EQ(false, all.solved());
 
     for (int n = 1; n <= 9; n++) {
@@ -26,7 +26,7 @@ TEST(OptionsTest, solved_single) {
 }
 
 TEST(OptionsTest, value_accessor) {
-    solver::Options all;
+    const solver::Options all;
     EXPECT_EQ(0, all.value());
 
     for (int n = 1; n <= 9; n++) {
