@@ -7,6 +7,8 @@ set(SOURCES
         options.cpp
         region.hpp
         region.cpp
+        sudoku.hpp
+        sudoku.cpp
     )
 
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE ${SOURCES})

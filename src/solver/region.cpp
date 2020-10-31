@@ -14,7 +14,7 @@ void Region::eliminate() {
     }
 }
 
-void Region::update() {
+void Region::exclude() {
     Cell* candidate = nullptr;
 
     for (int n = 1; n <= 9; n++) {

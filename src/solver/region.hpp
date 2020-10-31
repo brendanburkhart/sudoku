@@ -11,7 +11,7 @@ public:
     Region(std::array<Cell*, 9> members);
 
     void eliminate();
-    void update();
+    void exclude();
     
 private:
     std::array<Cell*, 9> members;
