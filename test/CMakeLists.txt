@@ -9,6 +9,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME}_test PRIVATE ${CMAKE_PROJECT_NAME}_l
 target_sources(${CMAKE_PROJECT_NAME}_test
     PRIVATE
         "solver/options_test.cpp"
-)
+        "solver/cell_test.cpp"
+    )
 
 gtest_discover_tests(${CMAKE_PROJECT_NAME}_test)
