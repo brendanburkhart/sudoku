@@ -23,7 +23,9 @@ int Cell::get_value() const {
 }
 
 void Cell::eliminate(Options available) {
-	options &= available;
+	if (value == 0) {
+		options &= available;
+	}
 }
 
 void Cell::update() {

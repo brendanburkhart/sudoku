@@ -54,6 +54,18 @@ TEST(CellTest, eliminate) {
     EXPECT_EQ(true, cell.could_be(9));
 }
 
+TEST(CellTest, eliminate_single) {
+    solver::Cell cell(5);
+
+    EXPECT_EQ(true, cell.could_be(5));
+
+    solver::Options options;
+    options -= 5;
+
+    cell.eliminate(options);
+    EXPECT_EQ(true, cell.could_be(5));
+}
+
 TEST(CellTest, eliminate_is_idempotent) {
     solver::Cell cell;
 
