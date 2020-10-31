@@ -27,7 +27,7 @@ void Cell::eliminate(Options available) {
 }
 
 void Cell::update() {
-	if (value == 0 && options.solved()) {
+	if (value == 0) {
 		value = options.value();
 	}
 }
