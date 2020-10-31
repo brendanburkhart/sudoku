@@ -10,7 +10,6 @@ public:
     bool contains(int value) const;
 
     int value() const;
-    int raw() const;
 
     void operator-=(int value);
     void operator&=(const Options& available);

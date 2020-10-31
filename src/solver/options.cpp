@@ -36,10 +36,6 @@ int Options::value() const {
     return 0;
 }
 
-int Options::raw() const {
-    return options;
-}
-
 void Options::operator-=(int value) {
     options &= ~(1 << (value - 1));
 }
