@@ -1,5 +1,7 @@
 #pragma once
 
+namespace solver {
+
 class Options {
 public:
     Options(int value = 0);
@@ -19,3 +21,4 @@ private:
     int options;
 };
 
+}

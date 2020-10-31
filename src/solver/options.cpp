@@ -1,12 +1,14 @@
 #include "options.hpp"
 
+namespace solver {
+
 Options::Options(int value) {
     options = (value == 0) ? all : 1 << (value - 1);
 }
 
 bool Options::solved() const {
     // Only contains a single value if it is a power of two
-    return (options & (options-1)) == 0;
+    return (options & (options - 1)) == 0;
 }
 
 bool Options::contains(int value) const {
@@ -44,4 +46,6 @@ void Options::operator-=(int value) {
 
 void Options::operator&=(const Options& available) {
     options &= available.options;
+}
+
 }

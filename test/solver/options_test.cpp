@@ -5,9 +5,9 @@
 TEST(OptionsTest, options_contain_value)
 {
     for (int n = 1; n <= 9; n++) {
-        Options options(n);
+        solver::Options options(n);
 
-	for (int m = 1; m <= 9; m++) {
+	    for (int m = 1; m <= 9; m++) {
             EXPECT_EQ(n == m, options.contains(m));
         }
     }
