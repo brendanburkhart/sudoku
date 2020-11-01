@@ -11,10 +11,11 @@ public:
     Cell(int initial = 0);
 
     int get_value() const;
+    int checksum() const;
+    bool could_be(int value) const;
 
     void eliminate(Options available);
     void update();
-    bool could_be(int value) const;
 
     friend std::ostream& operator<<(std::ostream& output, const Cell& sudoku);
 

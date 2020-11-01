@@ -72,22 +72,46 @@ Cell& Sudoku::get_cell(size_t i, size_t j) {
     return data[i][j];
 }
 
-void Sudoku::eliminate() {
-    for (auto& region : regions) {
-        region.eliminate();
-    }
+void Sudoku::solve() {
+    int current_checksum = checksum();
 
-    for (auto& region : regions) {
-        region.exclude();
+    while (true) {
+
+        for (auto& region : regions) {
+            region.eliminate();
+        }
+
+        for (auto& region : regions) {
+            region.exclude();
+        }
+
+        for (auto& row : data) {
+            for (auto& cell : row) {
+                cell.update();
+            }
+        }
+
+        std::cout << "looped" << std::endl;
+
+        int new_checksum = checksum();
+        if (new_checksum == solved_checksum || new_checksum == current_checksum) {
+            break;
+        }
+
+        current_checksum = new_checksum;
     }
 }
 
-void Sudoku::update() {
+int Sudoku::checksum() {
+    int value = 0;
+
     for (auto& row : data) {
         for (auto& cell : row) {
-            cell.update();
+            value += cell.checksum();
         }
     }
+
+    return value;
 }
 
 std::ostream& operator<<(std::ostream& output, const Sudoku& sudoku) {

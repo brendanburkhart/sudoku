@@ -126,13 +126,11 @@ void construct_game_3(solver::Sudoku& game) {
 
 int main() {
     solver::Sudoku game;
-    construct_game_2(game);
+    construct_game_3(game);
 
     std::cout << game << std::endl;
 
-    game.eliminate();
-    game.eliminate();
-    game.update();
+    game.solve();
 
     std::cout << game << std::endl;
 }

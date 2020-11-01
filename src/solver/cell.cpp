@@ -22,6 +22,14 @@ int Cell::get_value() const {
 	return value;
 }
 
+int Cell::checksum() const {
+	return options.checksum();
+}
+
+bool Cell::could_be(int n) const {
+	return options.contains(n);
+}
+
 void Cell::eliminate(Options available) {
 	if (value == 0) {
 		options &= available;
@@ -32,10 +40,6 @@ void Cell::update() {
 	if (value == 0) {
 		value = options.value();
 	}
-}
-
-bool Cell::could_be(int n) const {
-	return options.contains(n);
 }
 
 }

@@ -36,6 +36,10 @@ int Options::value() const {
     return 0;
 }
 
+int Options::checksum() const {
+    return options;
+}
+
 void Options::operator-=(int value) {
     options &= ~(1 << (value - 1));
 }
