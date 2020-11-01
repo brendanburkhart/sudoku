@@ -81,6 +81,13 @@ TEST(RegionTest, single_exclude) {
     EXPECT_EQ(true, data[3].overlaps(4));
     EXPECT_EQ(false, data[3].overlaps(6));
     EXPECT_EQ(false, data[3].overlaps(8));
+
+    EXPECT_EQ(1, data[0].value());
+    EXPECT_EQ(2, data[1].value());
+    EXPECT_EQ(3, data[2].value());
+    EXPECT_EQ(6, data[5].value());
+    EXPECT_EQ(7, data[6].value());
+    EXPECT_EQ(9, data[8].value());
 }
 
 TEST(RegionTest, multi_exclude) {
@@ -169,4 +176,9 @@ TEST(RegionTest, multi_exclude) {
     EXPECT_EQ(false, data[7].overlaps(5));
     EXPECT_EQ(true, data[7].overlaps(7));
     EXPECT_EQ(true, data[7].overlaps(8));
+
+    EXPECT_EQ(1, data[0].value());
+    EXPECT_EQ(2, data[1].value());
+    EXPECT_EQ(6, data[5].value());
+    EXPECT_EQ(9, data[8].value());
 }
