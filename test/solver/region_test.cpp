@@ -3,19 +3,19 @@
 #include "gtest/gtest.h"
 
 TEST(RegionTest, elimination) {
-    std::array<solver::Cell, 9> data;
+    std::array<solver::Options, 9> data;
 
-    data[0] = solver::Cell(1);
-    data[1] = solver::Cell(2);
-    data[2] = solver::Cell(3);
-    data[3] = solver::Cell();
-    data[4] = solver::Cell();
-    data[5] = solver::Cell(6);
-    data[6] = solver::Cell(7);
-    data[7] = solver::Cell();
-    data[8] = solver::Cell(9);
+    data[0] = solver::Options(1);
+    data[1] = solver::Options(2);
+    data[2] = solver::Options(3);
+    data[3] = solver::Options();
+    data[4] = solver::Options();
+    data[5] = solver::Options(6);
+    data[6] = solver::Options(7);
+    data[7] = solver::Options();
+    data[8] = solver::Options(9);
 
-    solver::Region region(std::array<solver::Cell*, 9>{
+    solver::Region region(std::array<solver::Options*, 9>{
         &data[0],
         &data[1],
         &data[2],
@@ -34,33 +34,33 @@ TEST(RegionTest, elimination) {
 
         for (size_t i = 0; i < 9; i++) {
             bool unsolved = (i == 3) || (i == 4) || (i == 7);
-            bool could_be = (solved && (n == i + 1)) || (!solved && unsolved);
+            bool overlaps = (solved && (n == i + 1)) || (!solved && unsolved);
 
-            EXPECT_EQ(could_be, data[i].could_be(n));
+            EXPECT_EQ(overlaps, data[i].overlaps(n));
         }
     }
 }
 
 TEST(RegionTest, single_exclude) {
-    std::array<solver::Cell, 9> data;
+    std::array<solver::Options, 9> data;
 
-    data[0] = solver::Cell(1);
-    data[1] = solver::Cell(2);
-    data[2] = solver::Cell(3);
-    data[3] = solver::Cell();
-    data[4] = solver::Cell();
-    data[5] = solver::Cell(6);
-    data[6] = solver::Cell(7);
-    data[7] = solver::Cell();
-    data[8] = solver::Cell(9);
+    data[0] = solver::Options(1);
+    data[1] = solver::Options(2);
+    data[2] = solver::Options(3);
+    data[3] = solver::Options();
+    data[4] = solver::Options();
+    data[5] = solver::Options(6);
+    data[6] = solver::Options(7);
+    data[7] = solver::Options();
+    data[8] = solver::Options(9);
 
     solver::Options available;
-    available -= 4;
+    available.remove(4);
 
-    data[4].eliminate(available);
-    data[7].eliminate(available);
+    data[4].restrict_to(available);
+    data[7].restrict_to(available);
 
-    solver::Region region(std::array<solver::Cell*, 9>{
+    solver::Region region(std::array<solver::Options*, 9>{
         &data[0],
         &data[1],
         &data[2],
@@ -72,13 +72,101 @@ TEST(RegionTest, single_exclude) {
         &data[8],
     });
 
-    EXPECT_EQ(true, data[3].could_be(4));
-    EXPECT_EQ(true, data[3].could_be(6));
-    EXPECT_EQ(true, data[3].could_be(8));
+    EXPECT_EQ(true, data[3].overlaps(4));
+    EXPECT_EQ(true, data[3].overlaps(6));
+    EXPECT_EQ(true, data[3].overlaps(8));
 
     region.exclude();
 
-    EXPECT_EQ(true, data[3].could_be(4));
-    EXPECT_EQ(false, data[3].could_be(6));
-    EXPECT_EQ(false, data[3].could_be(8));
+    EXPECT_EQ(true, data[3].overlaps(4));
+    EXPECT_EQ(false, data[3].overlaps(6));
+    EXPECT_EQ(false, data[3].overlaps(8));
+}
+
+TEST(RegionTest, multi_exclude) {
+    std::array<solver::Options, 9> data;
+
+    data[0] = solver::Options(1);
+    data[1] = solver::Options(2);
+    data[2] = solver::Options();
+    data[3] = solver::Options();
+    data[4] = solver::Options();
+    data[5] = solver::Options(6);
+    data[6] = solver::Options();
+    data[7] = solver::Options();
+    data[8] = solver::Options(9);
+
+    solver::Options available;
+    available.remove(3);
+    available.remove(7);
+    available.remove(8);
+
+    data[3].restrict_to(available);
+    data[4].restrict_to(available);
+
+    solver::Region region(std::array<solver::Options*, 9>{
+        &data[0],
+        &data[1],
+        &data[2],
+        &data[3],
+        &data[4],
+        &data[5],
+        &data[6],
+        &data[7],
+        &data[8],
+    });
+
+    EXPECT_EQ(true, data[2].overlaps(3));
+    EXPECT_EQ(true, data[2].overlaps(4));
+    EXPECT_EQ(true, data[2].overlaps(5));
+    EXPECT_EQ(true, data[2].overlaps(7));
+    EXPECT_EQ(true, data[2].overlaps(8));
+    EXPECT_EQ(false, data[3].overlaps(3));
+    EXPECT_EQ(true, data[3].overlaps(4));
+    EXPECT_EQ(true, data[3].overlaps(5));
+    EXPECT_EQ(false, data[3].overlaps(7));
+    EXPECT_EQ(false, data[3].overlaps(8));
+    EXPECT_EQ(false, data[4].overlaps(3));
+    EXPECT_EQ(true, data[4].overlaps(4));
+    EXPECT_EQ(true, data[4].overlaps(5));
+    EXPECT_EQ(false, data[4].overlaps(7));
+    EXPECT_EQ(false, data[4].overlaps(8));
+    EXPECT_EQ(true, data[6].overlaps(3));
+    EXPECT_EQ(true, data[6].overlaps(4));
+    EXPECT_EQ(true, data[6].overlaps(5));
+    EXPECT_EQ(true, data[6].overlaps(7));
+    EXPECT_EQ(true, data[6].overlaps(8));
+    EXPECT_EQ(true, data[7].overlaps(3));
+    EXPECT_EQ(true, data[7].overlaps(4));
+    EXPECT_EQ(true, data[7].overlaps(5));
+    EXPECT_EQ(true, data[7].overlaps(7));
+    EXPECT_EQ(true, data[7].overlaps(8));
+
+    region.exclude();
+
+    EXPECT_EQ(true, data[2].overlaps(3));
+    EXPECT_EQ(false, data[2].overlaps(4));
+    EXPECT_EQ(false, data[2].overlaps(5));
+    EXPECT_EQ(true, data[2].overlaps(7));
+    EXPECT_EQ(true, data[2].overlaps(8));
+    EXPECT_EQ(false, data[3].overlaps(3));
+    EXPECT_EQ(true, data[3].overlaps(4));
+    EXPECT_EQ(true, data[3].overlaps(5));
+    EXPECT_EQ(false, data[3].overlaps(7));
+    EXPECT_EQ(false, data[3].overlaps(8));
+    EXPECT_EQ(false, data[4].overlaps(3));
+    EXPECT_EQ(true, data[4].overlaps(4));
+    EXPECT_EQ(true, data[4].overlaps(5));
+    EXPECT_EQ(false, data[4].overlaps(7));
+    EXPECT_EQ(false, data[4].overlaps(8));
+    EXPECT_EQ(true, data[6].overlaps(3));
+    EXPECT_EQ(false, data[6].overlaps(4));
+    EXPECT_EQ(false, data[6].overlaps(5));
+    EXPECT_EQ(true, data[6].overlaps(7));
+    EXPECT_EQ(true, data[6].overlaps(8));
+    EXPECT_EQ(true, data[7].overlaps(3));
+    EXPECT_EQ(false, data[7].overlaps(4));
+    EXPECT_EQ(false, data[7].overlaps(5));
+    EXPECT_EQ(true, data[7].overlaps(7));
+    EXPECT_EQ(true, data[7].overlaps(8));
 }

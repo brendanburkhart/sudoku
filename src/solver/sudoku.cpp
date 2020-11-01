@@ -8,7 +8,7 @@ Sudoku::Sudoku() {
     // Construct row regions
     for (size_t i = 0; i < 9; i++)
     {
-        std::array<Cell*, 9> members{
+        std::array<Options*, 9> members{
             &data[i][0],
             &data[i][1],
             &data[i][2],
@@ -26,7 +26,7 @@ Sudoku::Sudoku() {
     // Construct column regions
     for (size_t i = 0; i < 9; i++)
     {
-        std::array<Cell*, 9> members{
+        std::array<Options*, 9> members{
             &data[0][i],
             &data[1][i],
             &data[2][i],
@@ -47,7 +47,7 @@ Sudoku::Sudoku() {
             size_t row = j * 3;
             size_t column = i * 3;
 
-            std::array<Cell*, 9> members{
+            std::array<Options*, 9> members{
                 &data[row][column],
                 &data[row][column + 1],
                 &data[row][column + 2],
@@ -65,10 +65,10 @@ Sudoku::Sudoku() {
 }
 
 void Sudoku::set_cell(size_t i, size_t j, int value) {
-    data[i][j] = Cell(value);
+    data[i][j] = Options(value);
 }
 
-Cell& Sudoku::get_cell(size_t i, size_t j) {
+Options& Sudoku::get_cell(size_t i, size_t j) {
     return data[i][j];
 }
 
@@ -84,14 +84,6 @@ void Sudoku::solve() {
         for (auto& region : regions) {
             region.exclude();
         }
-
-        for (auto& row : data) {
-            for (auto& cell : row) {
-                cell.update();
-            }
-        }
-
-        std::cout << "looped" << std::endl;
 
         int new_checksum = checksum();
         if (new_checksum == solved_checksum || new_checksum == current_checksum) {

@@ -123,6 +123,11 @@ void construct_game_3(solver::Sudoku& game) {
     game.set_cell(8, 7, 9);
 }
 
+// TODO: bitset
+// TODO: specialize to prevent conversion
+// TODO: readme
+// TODO: counted 
+// TODO: cache solved values
 
 int main() {
     solver::Sudoku game;

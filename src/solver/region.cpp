@@ -1,43 +1,45 @@
 #include "region.hpp"
 
+#include <vector>
+
 namespace solver {
 
-Region::Region(std::array<Cell*, 9> members) : members(members) {}
+Region::Region(std::array<Options*, 9> members) : members(members) {}
 
 void Region::eliminate() {
     for (auto member : members) {
-        available -= member->get_value();
+        available.remove(member->value());
     }
 
     for (auto member : members) {
-        member->eliminate(available);
+        if (!member->is_solved()) {
+            member->restrict_to(available);
+        }
     }
 }
 
 void Region::exclude() {
-    bool single = true;
-    Cell* candidate = nullptr;
+    std::vector<Options*> candidates;
+    candidates.reserve(9);
+
+    Options available;
 
     for (int n = 1; n <= 9; n++) {
         for (auto member : members) {
-            if (!member->could_be(n)) {
+            if (!member->overlaps(n)) {
                 continue;
             }
 
-            if (candidate == nullptr) {
-                candidate = member;
-            } else {
-                single = false;
-                break;
-            }
+            available.restrict_to(*member);
+            candidates.push_back(member);
         }
 
-        if (single && candidate != nullptr) {
-            candidate->eliminate(Options(n));
+        if (candidates.size() == 0 /* available count*/) {
+
         }
 
-        single = true;
-        candidate = nullptr;
+        candidates.empty();
+        available = Options();
     }
 }
 

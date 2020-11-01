@@ -2,19 +2,19 @@
 
 #include <array>
 
-#include "cell.hpp"
+#include "options.hpp"
 
 namespace solver {
 
 class Region {
 public:
-    Region(std::array<Cell*, 9> members);
+    Region(std::array<Options*, 9> members);
 
     void eliminate();
     void exclude();
     
 private:
-    std::array<Cell*, 9> members;
+    std::array<Options*, 9> members;
 
     Options available;
 };

@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 
-#include "cell.hpp"
+#include "options.hpp"
 #include "region.hpp"
 
 namespace solver {
@@ -14,14 +14,14 @@ public:
     Sudoku();
 
     void set_cell(size_t i, size_t j, int value);
-    Cell& get_cell(size_t i, size_t j);
+    Options& get_cell(size_t i, size_t j);
 
     void solve();
 
     friend std::ostream& operator<<(std::ostream& output, const Sudoku& sudoku);
 
 private:
-    std::array<std::array<Cell, 9>, 9> data;
+    std::array<std::array<Options, 9>, 9> data;
     std::vector<Region> regions;
 
     static constexpr int solved_checksum = 9 * Options::all;

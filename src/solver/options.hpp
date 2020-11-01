@@ -1,23 +1,27 @@
 #pragma once
 
+#include <iostream>
+
 namespace solver {
 
 class Options {
 public:
-    Options(int value = 0);
+    Options(int value = all);
 
-    bool solved() const;
-    bool contains(int value) const;
+    bool is_solved() const;
+    bool overlaps(const Options& values) const;
 
     int value() const;
     int checksum() const;
 
-    void operator-=(int value);
-    void operator&=(const Options& available);
+    void remove(const Options& values);
+    void restrict_to(const Options& values);
+
+    friend std::ostream& operator<<(std::ostream& output, const Options& values);
 
     static constexpr int all = 1 + 2 + 4 + 8 + 16 + 32 + 64 + 128 + 256;
-
 private:
+
     int options;
 };
 
