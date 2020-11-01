@@ -24,32 +24,32 @@ void Region::exclude() {
     candidates.reserve(9);
     noncandidates.reserve(9);
 
-    Options available;
+    Options together;
 
     for (int n = 1; n <= 9; n++) {
         for (auto member : members) {
             if (!member->overlaps(n)) {
-                available.remove(*member);
+                together.remove(*member);
                 noncandidates.push_back(member);
             } else {
-                available.restrict_to(*member);
+                together.restrict_to(*member);
                 candidates.push_back(member);
             }
         }
 
-        if (candidates.size() == available.count()) {
+        if (candidates.size() == together.count()) {
             for (auto& candidate : candidates) {
-                candidate->restrict_to(available);
+                candidate->restrict_to(together);
             }
 
             for (auto& noncandidate : noncandidates) {
-                noncandidate->remove(available);
+                noncandidate->remove(together);
             }
         }
 
         candidates.clear();
         noncandidates.clear();
-        available = Options();
+        together = Options();
     }
 }
 
