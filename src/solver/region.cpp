@@ -20,25 +20,35 @@ void Region::eliminate() {
 
 void Region::exclude() {
     std::vector<Options*> candidates;
+    std::vector<Options*> noncandidates;
     candidates.reserve(9);
+    noncandidates.reserve(9);
 
     Options available;
 
     for (int n = 1; n <= 9; n++) {
         for (auto member : members) {
             if (!member->overlaps(n)) {
-                continue;
+                available.remove(*member);
+                noncandidates.push_back(member);
+            } else {
+                available.restrict_to(*member);
+                candidates.push_back(member);
+            }
+        }
+
+        if (candidates.size() == available.count()) {
+            for (auto& candidate : candidates) {
+                candidate->restrict_to(available);
             }
 
-            available.restrict_to(*member);
-            candidates.push_back(member);
+            for (auto& noncandidate : noncandidates) {
+                noncandidate->remove(available);
+            }
         }
 
-        if (candidates.size() == 0 /* available count*/) {
-
-        }
-
-        candidates.empty();
+        candidates.clear();
+        noncandidates.clear();
         available = Options();
     }
 }
