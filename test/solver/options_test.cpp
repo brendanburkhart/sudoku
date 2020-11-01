@@ -42,6 +42,70 @@ TEST(OptionsTest, value_accessor) {
     }
 }
 
+TEST(OptionsTest, checksum_disordered_one) {
+    int all = 0;
+    std::array<int, 9> values{ 3, 1, 7, 5, 4, 9, 8, 2, 6 };
+
+    solver::Options options;
+
+    for (int n : values) {
+        int previous = options.checksum();
+        options.remove(n);
+        EXPECT_LT(options.checksum(), previous);
+
+        all += solver::Options(n).checksum();
+    }
+
+    EXPECT_EQ(all, solver::Options().checksum());   
+}
+
+TEST(OptionsTest, checksum_disordered_two) {
+    int all = 0;
+    std::array<int, 9> values{ 8, 3, 5, 6, 2, 1, 9, 4, 7 };
+
+    solver::Options options;
+
+    for (int n : values) {
+        int previous = options.checksum();
+        options.remove(n);
+        EXPECT_LT(options.checksum(), previous);
+
+        all += solver::Options(n).checksum();
+    }
+
+    EXPECT_EQ(all, solver::Options().checksum());
+}
+
+TEST(OptionsTest, count_order_two) {
+    int count = 9;
+    std::array<int, 9> values{ 3, 1, 7, 5, 4, 9, 8, 2, 6 };
+
+    solver::Options options;
+
+    for (int n : values) {
+        EXPECT_EQ(count, options.count());
+        options.remove(n);
+        EXPECT_EQ(--count, options.count());
+
+        EXPECT_EQ(1, solver::Options(n).count());
+    }
+}
+
+TEST(OptionsTest, count_order_one) {
+    int count = 9;
+    std::array<int, 9> values{ 8, 3, 5, 6, 2, 1, 9, 4, 7 };
+
+    solver::Options options;
+
+    for (int n : values) {
+        EXPECT_EQ(count, options.count());
+        options.remove(n);
+        EXPECT_EQ(--count, options.count());
+
+        EXPECT_EQ(1, solver::Options(n).count());
+    }
+}
+
 TEST(OptionsTest, remove_ordered) {
     solver::Options options;
 

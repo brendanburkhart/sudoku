@@ -38,6 +38,18 @@ int Options::checksum() const {
     return options;
 }
 
+int Options::count() const {
+    int count = 0;
+
+    for (int n = 1; n <= 9; n++) {
+        int mask = (1 << (n - 1));
+
+        count += (options & mask) >> (n - 1);
+    }
+
+    return count;
+}
+
 void Options::remove(const Options& values) {
     options &= ~values.options;
 }

@@ -13,6 +13,7 @@ public:
 
     int value() const;
     int checksum() const;
+    int count() const;
 
     void remove(const Options& values);
     void restrict_to(const Options& values);
