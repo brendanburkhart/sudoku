@@ -40,3 +40,45 @@ TEST(RegionTest, elimination) {
         }
     }
 }
+
+TEST(RegionTest, single_exclude) {
+    std::array<solver::Cell, 9> data;
+
+    data[0] = solver::Cell(1);
+    data[1] = solver::Cell(2);
+    data[2] = solver::Cell(3);
+    data[3] = solver::Cell();
+    data[4] = solver::Cell();
+    data[5] = solver::Cell(6);
+    data[6] = solver::Cell(7);
+    data[7] = solver::Cell();
+    data[8] = solver::Cell(9);
+
+    solver::Options available;
+    available -= 4;
+
+    data[4].eliminate(available);
+    data[7].eliminate(available);
+
+    solver::Region region(std::array<solver::Cell*, 9>{
+        &data[0],
+        &data[1],
+        &data[2],
+        &data[3],
+        &data[4],
+        &data[5],
+        &data[6],
+        &data[7],
+        &data[8],
+    });
+
+    EXPECT_EQ(true, data[3].could_be(4));
+    EXPECT_EQ(true, data[3].could_be(6));
+    EXPECT_EQ(true, data[3].could_be(8));
+
+    region.exclude();
+
+    EXPECT_EQ(true, data[3].could_be(4));
+    EXPECT_EQ(false, data[3].could_be(6));
+    EXPECT_EQ(false, data[3].could_be(8));
+}

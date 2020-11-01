@@ -15,6 +15,7 @@ void Region::eliminate() {
 }
 
 void Region::exclude() {
+    bool single = true;
     Cell* candidate = nullptr;
 
     for (int n = 1; n <= 9; n++) {
@@ -26,16 +27,16 @@ void Region::exclude() {
             if (candidate == nullptr) {
                 candidate = member;
             } else {
-                candidate = nullptr;
+                single = false;
                 break;
             }
         }
 
-        if (candidate == nullptr) {
-            continue;
+        if (single && candidate != nullptr) {
+            candidate->eliminate(Options(n));
         }
 
-        candidate->eliminate(Options(n));
+        single = true;
         candidate = nullptr;
     }
 }
