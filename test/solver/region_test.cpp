@@ -222,3 +222,38 @@ TEST(RegionTest, multi_exclude) {
     EXPECT_EQ(6, data[5].value());
     EXPECT_EQ(9, data[8].value());
 }
+
+TEST(RegionTest, remove_from_segment) {
+    std::array<solver::Options, 9> data;
+
+    data[0] = solver::Options();
+    data[1] = solver::Options();
+    data[2] = solver::Options();
+    data[3] = solver::Options();
+    data[4] = solver::Options();
+    data[5] = solver::Options();
+    data[6] = solver::Options();
+    data[7] = solver::Options();
+    data[8] = solver::Options();
+
+    solver::Region region(std::array<solver::Options*, 9>{
+        &data[0],
+            & data[1],
+            & data[2],
+            & data[3],
+            & data[4],
+            & data[5],
+            & data[6],
+            & data[7],
+            & data[8],
+    });
+
+    const solver::Options options(7);
+
+    region.remove_from_segment(2, options);
+    for (size_t i = 0; i < 9; i++)
+    {
+        bool could_be_seven = i < 6;
+        EXPECT_EQ(could_be_seven, data[i].overlaps(options));
+    }
+}
