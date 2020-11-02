@@ -10,6 +10,7 @@ target_sources(${CMAKE_PROJECT_NAME}_test
     PRIVATE
         "solver/options_test.cpp"
         "solver/region_test.cpp"
+        "solver/super_region_test.cpp"
     )
 
 gtest_discover_tests(${CMAKE_PROJECT_NAME}_test)
