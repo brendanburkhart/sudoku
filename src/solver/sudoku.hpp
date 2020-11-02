@@ -6,6 +6,7 @@
 
 #include "options.hpp"
 #include "region.hpp"
+#include "super_region.hpp"
 
 namespace solver {
 
@@ -23,6 +24,7 @@ public:
 private:
     std::array<std::array<Options, 9>, 9> data;
     std::vector<Region> regions;
+    std::vector<SuperRegion> super_regions;
 
     static constexpr int solved_checksum = 9 * Options::all;
 

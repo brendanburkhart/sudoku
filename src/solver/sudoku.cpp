@@ -62,6 +62,26 @@ Sudoku::Sudoku() {
             regions.push_back(Region(members));
         }
     }
+
+    // Construct super regions
+    for (size_t i = 0; i < 3; i++)
+    {
+        std::array<Region*, 3> horizontal_regions{
+                &regions[(i * 3)],
+                &regions[(i * 3) + 1],
+                &regions[(i * 3) + 2],
+        };
+
+        super_regions.push_back(SuperRegion(horizontal_regions));
+
+        std::array<Region*, 3> vertical_regions{
+                &regions[9 + (i * 3)],
+                &regions[9 + (i * 3) + 1],
+                &regions[9 + (i * 3) + 2],
+        };
+
+        super_regions.push_back(SuperRegion(vertical_regions));
+    }
 }
 
 void Sudoku::set_cell(size_t i, size_t j, int value) {
@@ -75,14 +95,31 @@ Options& Sudoku::get_cell(size_t i, size_t j) {
 void Sudoku::solve() {
     int current_checksum = checksum();
 
-    while (true) {
-
+    for (int i = 0; i < 4; i++)
+    {
         for (auto& region : regions) {
             region.eliminate();
         }
 
         for (auto& region : regions) {
             region.exclude();
+            region.eliminate();
+        }
+
+        for (auto& region : regions) {
+            region.eliminate();
+        }
+        
+        for (auto& super_region : super_regions) {
+            super_region.restrict();
+
+            for (auto& region : regions) {
+                region.eliminate();
+            }
+        }
+
+        if (i == 3) {
+            std::cout << (*this) << std::endl;
         }
 
         int new_checksum = checksum();
