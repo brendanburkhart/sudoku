@@ -103,23 +103,30 @@ void Sudoku::solve() {
 
         for (auto& region : regions) {
             region.exclude();
-            region.eliminate();
-        }
-
-        for (auto& region : regions) {
-            region.eliminate();
+            
+            for (auto& inner : regions) {
+                inner.eliminate();
+            }
         }
         
         for (auto& super_region : super_regions) {
-            super_region.restrict();
+            for (int j = 0; j < 3; j++) {
+                super_region.restrict(j);
 
-            for (auto& region : regions) {
-                region.eliminate();
+                for (auto& region : regions) {
+                    region.eliminate();
+                }
             }
         }
 
-        if (i == 3) {
-            std::cout << (*this) << std::endl;
+        for (auto& super_region : super_regions) {
+            for (int j = 0; j < 3; j++) {
+                super_region.restrict2(j);
+
+                for (auto& region : regions) {
+                    region.eliminate();
+                }
+            }
         }
 
         int new_checksum = checksum();
