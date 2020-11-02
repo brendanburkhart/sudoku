@@ -2,6 +2,46 @@
 
 #include "gtest/gtest.h"
 
+TEST(RegionTest, available_in_segment) {
+    std::array<solver::Options, 9> data;
+
+    data[0] = solver::Options(1);
+    data[1] = solver::Options(2);
+    data[2] = solver::Options(3);
+    data[3] = solver::Options();
+    data[4] = solver::Options();
+    data[5] = solver::Options(6);
+    data[6] = solver::Options(7);
+    data[7] = solver::Options();
+    data[8] = solver::Options(9);
+
+    solver::Region region(std::array<solver::Options*, 9>{
+        &data[0],
+        &data[1],
+        &data[2],
+        &data[3],
+        &data[4],
+        &data[5],
+        &data[6],
+        &data[7],
+        &data[8],
+    });
+
+    region.eliminate();
+
+    const solver::Options first_segment = region.available_in_segment(0);
+    EXPECT_EQ(0, first_segment.count());
+
+    const solver::Options second_segment = region.available_in_segment(1);
+    EXPECT_EQ(3, second_segment.count());
+    EXPECT_EQ(true, second_segment.overlaps(4));
+    EXPECT_EQ(true, second_segment.overlaps(5));
+
+    const solver::Options third_segment = region.available_in_segment(2);
+    EXPECT_EQ(3, third_segment.count());
+    EXPECT_EQ(true, third_segment.overlaps(8));
+}
+
 TEST(RegionTest, elimination) {
     std::array<solver::Options, 9> data;
 

@@ -6,6 +6,20 @@ namespace solver {
 
 Region::Region(std::array<Options*, 9> members) : members(members) {}
 
+Options Region::available_in_segment(int segment) const {
+    Options segment_options(0);
+
+    size_t start = size_t{ 3 } * segment;
+
+    for (size_t i = start; i < 3 + start; i++) {
+        if (!members[i]->is_solved()) {
+            segment_options.add(*members[i]);
+        }
+    }
+
+    return segment_options;
+}
+
 void Region::eliminate() {
     for (auto member : members) {
         available.remove(member->value());
