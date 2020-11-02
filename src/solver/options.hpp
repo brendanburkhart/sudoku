@@ -16,6 +16,7 @@ public:
     int count() const;
 
     void remove(const Options& values);
+    void add(const Options& values);
     void restrict_to(const Options& values);
 
     friend std::ostream& operator<<(std::ostream& output, const Options& values);

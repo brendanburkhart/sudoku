@@ -142,6 +142,18 @@ TEST(OptionsTest, remove_disordered) {
     EXPECT_EQ(6, options.value());
 }
 
+TEST(OptionsTest, add) {
+    std::array<int, 8> values{ 3, 1, 7, 4, 5, 9, 8, 2 };
+
+    solver::Options options(0);
+
+    for (int n : values) {
+        EXPECT_EQ(false, options.overlaps(n));
+        options.add(n);
+        EXPECT_EQ(true, options.overlaps(n));
+    }
+}
+
 TEST(OptionsTest, combine) {
     solver::Options options;
     options.remove(7);

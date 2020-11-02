@@ -54,6 +54,10 @@ void Options::remove(const Options& values) {
     options &= ~values.options;
 }
 
+void Options::add(const Options& values) {
+    options |= values.options;
+}
+
 void Options::restrict_to(const Options& values) {
     options &= values.options;
 }
