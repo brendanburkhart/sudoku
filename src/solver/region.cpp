@@ -67,11 +67,13 @@ void Region::exclude() {
     }
 }
 
-void Region::remove_from_segment(int segment, const Options& options) {
+void Region::restrict_to_segment(int segment, const Options& options) {
     size_t start = size_t{ 3 } *segment;
 
-    for (size_t i = start; i < 3 + start; i++) {
-        members[i]->remove(options);
+    for (size_t i = 0; i < 9; i++) {
+        if (i < start || i >= start + 3) {
+            members[i]->remove(options);
+        }
     }
 }
 

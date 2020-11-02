@@ -14,7 +14,7 @@ public:
 
     void eliminate();
     void exclude();
-    void remove_from_segment(int segment, const Options& options);
+    void restrict_to_segment(int segment, const Options& options);
 
 private:
     std::array<Options*, 9> members;
