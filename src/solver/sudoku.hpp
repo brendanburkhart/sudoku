@@ -28,6 +28,7 @@ private:
 
     static constexpr int solved_checksum = 9 * Options::all;
 
+    void eliminate();
     int checksum();
 };
 

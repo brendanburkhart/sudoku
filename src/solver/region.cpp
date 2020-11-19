@@ -21,13 +21,18 @@ Options Region::available_in_segment(int segment) const {
 }
 
 void Region::eliminate() {
-    for (auto member : members) {
-        available.remove(member->value());
+    std::array<bool, 9> is_solved;
+
+    for (size_t i = 0; i < 9; i++) {
+        is_solved[i] = members[i]->is_solved();
+        if (is_solved[i]) {
+            available.remove(*members[i]);
+        }
     }
 
-    for (auto member : members) {
-        if (!member->is_solved()) {
-            member->restrict_to(available);
+    for (size_t i = 0; i < 9; i++) {
+        if (!is_solved[i]) {
+            members[i]->restrict_to(available);
         }
     }
 }

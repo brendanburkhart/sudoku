@@ -1,3 +1,4 @@
+#include <chrono>
 #include <iostream>
 
 #include "solver/sudoku.hpp"
@@ -253,12 +254,39 @@ void construct_game_6(solver::Sudoku& game) {
 // TODO: cache solved values
 
 int main() {
-    solver::Sudoku game;
-    construct_game_6(game);
+    std::vector<solver::Sudoku> games;
 
-    std::cout << game << std::endl;
+    for (size_t i = 0; i < 500000; i++) {
+        games.push_back(solver::Sudoku());
+        
+        switch (i % 4)
+        {
+        case 0:
+            construct_game_1(games[i]);
+            break;
+        case 1:
+            construct_game_6(games[i]);
+            break;
+        case 2:
+            construct_game_1(games[i]);
+            break;
+        case 3:
+            construct_game_6(games[i]);
+            break;
+        default:
+            break;
+        }
+    }
 
-    game.solve();
+    typedef std::chrono::high_resolution_clock Clock;
 
-    std::cout << game << std::endl;
+    auto t1 = Clock::now();
+    
+    for (auto& game : games) {
+        game.solve();
+    }
+
+    auto t2 = Clock::now();
+
+    std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count() << " ms" << std::endl;
 }

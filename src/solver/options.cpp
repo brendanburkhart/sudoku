@@ -54,6 +54,12 @@ void Options::remove(const Options& values) {
     options &= ~values.options;
 }
 
+void Options::eliminate(const Options& values) {
+    if (values.is_solved()) {
+        options &= ~values.options;
+    }
+}
+
 void Options::add(const Options& values) {
     options |= values.options;
 }

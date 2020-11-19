@@ -97,25 +97,19 @@ void Sudoku::solve() {
 
     for (int i = 0; i < 4; i++)
     {
-        for (auto& region : regions) {
-            region.eliminate();
-        }
+        eliminate();
 
         for (auto& region : regions) {
             region.exclude();
             
-            for (auto& inner : regions) {
-                inner.eliminate();
-            }
+            eliminate();
         }
         
         for (auto& super_region : super_regions) {
             for (int j = 0; j < 3; j++) {
                 super_region.restrict(j);
 
-                for (auto& region : regions) {
-                    region.eliminate();
-                }
+                eliminate();
             }
         }
 
@@ -123,9 +117,7 @@ void Sudoku::solve() {
             for (int j = 0; j < 3; j++) {
                 super_region.restrict2(j);
 
-                for (auto& region : regions) {
-                    region.eliminate();
-                }
+                eliminate();
             }
         }
 
@@ -135,6 +127,12 @@ void Sudoku::solve() {
         }
 
         current_checksum = new_checksum;
+    }
+}
+
+void Sudoku::eliminate() {
+    for (auto& region : regions) {
+        region.eliminate();
     }
 }
 

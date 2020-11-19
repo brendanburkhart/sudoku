@@ -74,7 +74,7 @@ protected:
 TEST_F(SuperRegionTest, restrict) {
     EXPECT_EQ(true, data2[8].overlaps(7));
 
-    super_region.restrict();
+    super_region.restrict(1);
 
     EXPECT_EQ(false, data2[8].overlaps(7));
 }
