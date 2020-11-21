@@ -107,7 +107,7 @@ void Sudoku::solve() {
         
         for (auto& super_region : super_regions) {
             for (int j = 0; j < 3; j++) {
-                super_region.restrict(j);
+                super_region.restrict_between(j);
 
                 eliminate();
             }
@@ -115,7 +115,7 @@ void Sudoku::solve() {
 
         for (auto& super_region : super_regions) {
             for (int j = 0; j < 3; j++) {
-                super_region.restrict2(j);
+                super_region.restrict_within(j);
 
                 eliminate();
             }

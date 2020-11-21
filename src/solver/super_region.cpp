@@ -4,7 +4,7 @@ namespace solver {
 
 SuperRegion::SuperRegion(std::array<Region*, 3> regions) : regions(regions) {}
 
-void SuperRegion::restrict(int i) {
+void SuperRegion::restrict_between(int i) {
 	const Options available0 = regions[0]->available_in_segment(i);
 	const Options available1 = regions[1]->available_in_segment(i);
 	const Options available2 = regions[2]->available_in_segment(i);
@@ -26,7 +26,7 @@ void SuperRegion::restrict(int i) {
 	regions[2]->restrict_to_segment(i, required2);
 }
 
-void SuperRegion::restrict2(int i) {
+void SuperRegion::restrict_within(int i) {
 	const Options available0 = regions[i]->available_in_segment(0);
 	const Options available1 = regions[i]->available_in_segment(1);
 	const Options available2 = regions[i]->available_in_segment(2);

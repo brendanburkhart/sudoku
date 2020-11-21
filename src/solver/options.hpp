@@ -15,7 +15,6 @@ public:
     int checksum() const;
     int count() const;
 
-    void eliminate(const Options& values);
     void remove(const Options& values);
     void add(const Options& values);
     void restrict_to(const Options& values);
@@ -23,8 +22,8 @@ public:
     friend std::ostream& operator<<(std::ostream& output, const Options& values);
 
     static constexpr int all = 1 + 2 + 4 + 8 + 16 + 32 + 64 + 128 + 256;
-private:
 
+private:
     int options;
 };
 

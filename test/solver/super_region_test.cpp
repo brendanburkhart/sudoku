@@ -71,10 +71,10 @@ protected:
     solver::SuperRegion super_region;
 };
 
-TEST_F(SuperRegionTest, restrict) {
+TEST_F(SuperRegionTest, restrict_between) {
     EXPECT_EQ(true, data2[8].overlaps(7));
 
-    super_region.restrict(1);
+    super_region.restrict_between(1);
 
     EXPECT_EQ(false, data2[8].overlaps(7));
 }

@@ -18,6 +18,7 @@ public:
     Options& get_cell(size_t i, size_t j);
 
     void solve();
+    bool is_solved() const;
 
     friend std::ostream& operator<<(std::ostream& output, const Sudoku& sudoku);
 

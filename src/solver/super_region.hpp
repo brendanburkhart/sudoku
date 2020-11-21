@@ -10,8 +10,8 @@ class SuperRegion {
 public:
     SuperRegion(std::array<Region*, 3> members);
 
-    void restrict(int i);
-    void restrict2(int i);
+    void restrict_between(int i);
+    void restrict_within(int i);
 
 private:
     std::array<Region*, 3> regions;
