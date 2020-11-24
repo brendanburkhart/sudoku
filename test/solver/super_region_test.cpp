@@ -2,17 +2,21 @@
 
 #include "gtest/gtest.h"
 
-std::array<solver::Options, 9> construct_data(const std::array<int, 9>& values) {
+std::array<solver::Options, 9> construct_data() {
+    solver::Options seven = solver::Options::from_value(7);
+    solver::Options value = solver::Options::all();
+    value.remove(seven);
+
     return std::array<solver::Options, 9>({
-        values[0],
-        values[1],
-        values[2],
-        values[3],
-        values[4],
-        values[5],
-        values[6],
-        values[7],
-        values[8],
+        value,
+        value,
+        value,
+        value,
+        value,
+        value,
+        value,
+        value,
+        value,
     });
 }
 
@@ -45,9 +49,16 @@ solver::SuperRegion construct_super_region(solver::Region& region1, solver::Regi
 class SuperRegionTest : public ::testing::Test {
 protected:
     SuperRegionTest()
-        : data1(construct_data(values1)), data2(construct_data(values2)), data3(construct_data(values3)), 
+        : data1(construct_data()), data2(construct_data()), data3(construct_data()), 
           region1(construct_region(data1)), region2(construct_region(data2)), region3(construct_region(data3)),
-          super_region(construct_super_region(region1, region2, region3)) { 
+          super_region(construct_super_region(region1, region2, region3)) {
+
+        data2[3].add(solver::Options::from_value(7));
+        data2[4].add(solver::Options::from_value(7));
+        data2[5].add(solver::Options::from_value(7));
+        data2[6].add(solver::Options::from_value(7));
+        data3[6].add(solver::Options::from_value(7));
+
         region1.eliminate();
         region2.eliminate();
         region3.eliminate();
@@ -55,10 +66,6 @@ protected:
         region2.exclude();
         region3.exclude();
     }
-
-    static constexpr std::array<int, 9> values1 = { 1, 2, 3, solver::Options::all, 7, 9, 5, 6, solver::Options::all };
-    static constexpr std::array<int, 9> values2 = { solver::Options::all, 5, 6, 2, 1, solver::Options::all, 3, 9, solver::Options::all };
-    static constexpr std::array<int, 9> values3 = { solver::Options::all, solver::Options::all, solver::Options::all, 5, 6, 3, 1, 2, solver::Options::all };
 
     std::array<solver::Options, 9> data1;
     std::array<solver::Options, 9> data2;
@@ -72,9 +79,10 @@ protected:
 };
 
 TEST_F(SuperRegionTest, restrict_between) {
-    EXPECT_EQ(true, data2[8].overlaps(7));
+    EXPECT_EQ(true, data2[6].overlaps(solver::Options::from_value(7)));
 
     super_region.restrict_between(1);
 
-    EXPECT_EQ(false, data2[8].overlaps(7));
+    EXPECT_EQ(false, data2[6].overlaps(solver::Options::from_value(7)));
 }
+

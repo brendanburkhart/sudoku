@@ -2,10 +2,6 @@
 
 namespace solver {
 
-Options::Options(int value) {
-    options = (value == all || value == 0) ? value : 1 << (value - 1);
-}
-
 bool Options::is_solved() const {
     // Only contains a single value if it is a power of two
     return (options & (options - 1)) == 0;
@@ -32,10 +28,6 @@ int Options::value() const {
     }
 
     return 0;
-}
-
-int Options::checksum() const {
-    return options;
 }
 
 int Options::count() const {

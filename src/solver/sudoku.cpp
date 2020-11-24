@@ -97,7 +97,7 @@ Sudoku::Sudoku(Sudoku&& sudoku) noexcept : data(std::move(sudoku.data)) {
 }
 
 void Sudoku::set_cell(size_t i, size_t j, int value) {
-    data[i][j] = Options(value);
+    data[i][j] = Options::from_value(value);
 }
 
 Options& Sudoku::get_cell(size_t i, size_t j) {
@@ -161,7 +161,6 @@ void Sudoku::eliminate() {
             break;
         }
     }
-    
 }
 
 int Sudoku::checksum() {

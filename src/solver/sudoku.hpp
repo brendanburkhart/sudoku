@@ -29,7 +29,7 @@ private:
     std::vector<Region> regions;
     std::vector<SuperRegion> super_regions;
 
-    static constexpr int solved_checksum = 9 * Options::all;
+    static constexpr int solved_checksum = 9 * Options::all().checksum();
 
     void eliminate();
     int checksum();

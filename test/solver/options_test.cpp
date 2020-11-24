@@ -8,14 +8,14 @@ TEST(OptionsTest, contains_single) {
     const solver::Options all;
 
     for (int n = 1; n <= 9; n++) {
-        EXPECT_EQ(true, all.overlaps(n));
+        EXPECT_EQ(true, all.overlaps(solver::Options::from_value(n)));
     }
 
     for (int n = 1; n <= 9; n++) {
-        const solver::Options options(n);
+        const solver::Options options(solver::Options::from_value(n));
 
         for (int m = 1; m <= 9; m++) {
-            EXPECT_EQ(n == m, options.overlaps(m));
+            EXPECT_EQ(n == m, options.overlaps(solver::Options::from_value(m)));
         }
     }
 }
@@ -25,7 +25,7 @@ TEST(OptionsTest, solved_single) {
     EXPECT_EQ(false, all.is_solved());
 
     for (int n = 1; n <= 9; n++) {
-        const solver::Options single(n);
+        const solver::Options single(solver::Options::from_value(n));
 
         EXPECT_EQ(true, single.is_solved());
     }
@@ -36,7 +36,7 @@ TEST(OptionsTest, value_accessor) {
     EXPECT_EQ(0, all.value());
 
     for (int n = 1; n <= 9; n++) {
-        const solver::Options options(n);
+        const solver::Options options(solver::Options::from_value(n));
 
         EXPECT_EQ(n, options.value());
     }
@@ -50,10 +50,10 @@ TEST(OptionsTest, checksum_disordered_one) {
 
     for (int n : values) {
         int previous = options.checksum();
-        options.remove(n);
+        options.remove(solver::Options::from_value(n));
         EXPECT_LT(options.checksum(), previous);
 
-        all += solver::Options(n).checksum();
+        all += solver::Options::from_value(n).checksum();
     }
 
     EXPECT_EQ(all, solver::Options().checksum());   
@@ -67,10 +67,10 @@ TEST(OptionsTest, checksum_disordered_two) {
 
     for (int n : values) {
         int previous = options.checksum();
-        options.remove(n);
+        options.remove(solver::Options::from_value(n));
         EXPECT_LT(options.checksum(), previous);
 
-        all += solver::Options(n).checksum();
+        all += solver::Options::from_value(n).checksum();
     }
 
     EXPECT_EQ(all, solver::Options().checksum());
@@ -84,10 +84,10 @@ TEST(OptionsTest, count_order_one) {
 
     for (int n : values) {
         EXPECT_EQ(count, options.count());
-        options.remove(n);
+        options.remove(solver::Options::from_value(n));
         EXPECT_EQ(--count, options.count());
 
-        EXPECT_EQ(1, solver::Options(n).count());
+        EXPECT_EQ(1, solver::Options::from_value(n).count());
     }
 }
 
@@ -99,10 +99,10 @@ TEST(OptionsTest, count_order_two) {
 
     for (int n : values) {
         EXPECT_EQ(count, options.count());
-        options.remove(n);
+        options.remove(solver::Options::from_value(n));
         EXPECT_EQ(--count, options.count());
 
-        EXPECT_EQ(1, solver::Options(n).count());
+        EXPECT_EQ(1, solver::Options::from_value(n).count());
     }
 }
 
@@ -112,11 +112,11 @@ TEST(OptionsTest, remove_ordered) {
     for (int n = 1; n <= 8; n++) {
         EXPECT_EQ(false, options.is_solved());
         EXPECT_EQ(0, options.value());
-        EXPECT_EQ(true, options.overlaps(n));
+        EXPECT_EQ(true, options.overlaps(solver::Options::from_value(n)));
 
-        options.remove(n);
+        options.remove(solver::Options::from_value(n));
 
-        EXPECT_EQ(false, options.overlaps(n));
+        EXPECT_EQ(false, options.overlaps(solver::Options::from_value(n)));
     }
 
     EXPECT_EQ(true, options.is_solved());
@@ -131,11 +131,11 @@ TEST(OptionsTest, remove_disordered) {
     for (int n : values) {
         EXPECT_EQ(false, options.is_solved());
         EXPECT_EQ(0, options.value());
-        EXPECT_EQ(true, options.overlaps(n));
+        EXPECT_EQ(true, options.overlaps(solver::Options::from_value(n)));
 
-        options.remove(n);
+        options.remove(solver::Options::from_value(n));
 
-        EXPECT_EQ(false, options.overlaps(n));
+        EXPECT_EQ(false, options.overlaps(solver::Options::from_value(n)));
     }
 
     EXPECT_EQ(true, options.is_solved());
@@ -145,33 +145,33 @@ TEST(OptionsTest, remove_disordered) {
 TEST(OptionsTest, add) {
     std::array<int, 8> values{ 3, 1, 7, 4, 5, 9, 8, 2 };
 
-    solver::Options options(0);
+    solver::Options options = solver::Options::from_value(0);
 
     for (int n : values) {
-        EXPECT_EQ(false, options.overlaps(n));
-        options.add(n);
-        EXPECT_EQ(true, options.overlaps(n));
+        EXPECT_EQ(false, options.overlaps(solver::Options::from_value(n)));
+        options.add(solver::Options::from_value(n));
+        EXPECT_EQ(true, options.overlaps(solver::Options::from_value(n)));
     }
 }
 
 TEST(OptionsTest, combine) {
     solver::Options options;
-    options.remove(7);
-    options.remove(3);
-    options.remove(5);
-    options.remove(2);
+    options.remove(solver::Options::from_value(7));
+    options.remove(solver::Options::from_value(3));
+    options.remove(solver::Options::from_value(5));
+    options.remove(solver::Options::from_value(2));
 
     solver::Options available;
-    options.remove(1);
-    options.remove(2);
-    options.remove(4);
-    options.remove(6);
-    options.remove(9);
+    options.remove(solver::Options::from_value(1));
+    options.remove(solver::Options::from_value(2));
+    options.remove(solver::Options::from_value(4));
+    options.remove(solver::Options::from_value(6));
+    options.remove(solver::Options::from_value(9));
 
     options.restrict_to(available);
 
     for (int n = 1; n <= 9; n++) {
-        EXPECT_EQ(n == 8, options.overlaps(n));
+        EXPECT_EQ(n == 8, options.overlaps(solver::Options::from_value(n)));
     }
 
     EXPECT_EQ(true, options.is_solved());

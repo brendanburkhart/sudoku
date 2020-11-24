@@ -7,7 +7,7 @@ namespace solver {
 Region::Region(std::array<Options*, 9> members) : members(members) {}
 
 Options Region::available_in_segment(int segment) const {
-    Options segment_options(0);
+    Options segment_options = Options::none();
 
     size_t start = size_t{ 3 } * segment;
 
@@ -31,7 +31,7 @@ bool Region::is_solved() const {
         checksum += member->checksum();
     }
 
-    return checksum == Options::all;
+    return checksum == Options::all().checksum();
 }
 
 void Region::eliminate() {
@@ -57,11 +57,11 @@ void Region::exclude() {
     candidates.reserve(9);
     noncandidates.reserve(9);
 
-    Options together = Options::all;
+    Options together = Options::all();
 
     for (int n = 1; n <= 9; n++) {
         for (auto member : members) {
-            if (!member->overlaps(n)) {
+            if (!member->overlaps(Options::from_value(n))) {
                 together.remove(*member);
                 noncandidates.push_back(member);
             } else {
