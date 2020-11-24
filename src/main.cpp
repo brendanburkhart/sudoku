@@ -246,17 +246,13 @@ void construct_game_6(solver::Sudoku& game) {
     game.set_cell(8, 5, 7);
 }
 
-// TODO: add validation
-// TODO: bitset
-// TODO: specialize to prevent conversion
-// TODO: readme
-// TODO: counted 
-// TODO: cache solved values
+constexpr size_t game_count = 500000;
 
 int main() {
     std::vector<solver::Sudoku> games;
+    games.reserve(game_count);
 
-    for (size_t i = 0; i < 500000; i++) {
+    for (size_t i = 0; i < game_count; i++) {
         games.push_back(solver::Sudoku());
         
         switch (i % 4)
@@ -265,12 +261,18 @@ int main() {
             construct_game_1(games[i]);
             break;
         case 1:
-            construct_game_6(games[i]);
+            construct_game_2(games[i]);
             break;
         case 2:
-            construct_game_1(games[i]);
+            construct_game_3(games[i]);
             break;
         case 3:
+            construct_game_4(games[i]);
+            break;
+        case 4:
+            construct_game_5(games[i]);
+            break;
+        case 5:
             construct_game_6(games[i]);
             break;
         default:
@@ -284,6 +286,10 @@ int main() {
     
     for (auto& game : games) {
         game.solve();
+
+        if (!game.is_solved()) {
+            std::cout << game << std::endl;
+        }
     }
 
     auto t2 = Clock::now();

@@ -11,13 +11,27 @@ Options Region::available_in_segment(int segment) const {
 
     size_t start = size_t{ 3 } * segment;
 
-    for (size_t i = start; i < 3 + start; i++) {
+    for (size_t i = start; i < start + 3; i++) {
         if (!members[i]->is_solved()) {
             segment_options.add(*members[i]);
         }
     }
 
     return segment_options;
+}
+
+bool Region::is_solved() const {
+    int checksum = 0;
+
+    for (auto member : members) {
+        if (!member->is_solved()) {
+            return false;
+        }
+
+        checksum += member->checksum();
+    }
+
+    return checksum == Options::all;
 }
 
 void Region::eliminate() {
@@ -43,7 +57,7 @@ void Region::exclude() {
     candidates.reserve(9);
     noncandidates.reserve(9);
 
-    Options together;
+    Options together = Options::all;
 
     for (int n = 1; n <= 9; n++) {
         for (auto member : members) {

@@ -2,7 +2,7 @@
 
 namespace solver {
 
-Sudoku::Sudoku() {
+void Sudoku::construct_regions() {
     regions.reserve(3 * 9);
 
     // Construct row regions
@@ -84,6 +84,18 @@ Sudoku::Sudoku() {
     }
 }
 
+Sudoku::Sudoku() {
+    construct_regions();
+}
+
+Sudoku::Sudoku(const Sudoku& sudoku) noexcept : data(sudoku.data) {
+    construct_regions();
+}
+
+Sudoku::Sudoku(Sudoku&& sudoku) noexcept : data(std::move(sudoku.data)) {
+    construct_regions();
+}
+
 void Sudoku::set_cell(size_t i, size_t j, int value) {
     data[i][j] = Options(value);
 }
@@ -93,10 +105,9 @@ Options& Sudoku::get_cell(size_t i, size_t j) {
 }
 
 void Sudoku::solve() {
-    int current_checksum = checksum();
+    while (true) {
+        int current_checksum = checksum();
 
-    for (int i = 0; i < 4; i++)
-    {
         eliminate();
 
         for (auto& region : regions) {
@@ -125,15 +136,32 @@ void Sudoku::solve() {
         if (new_checksum == solved_checksum || new_checksum == current_checksum) {
             break;
         }
-
-        current_checksum = new_checksum;
     }
 }
 
-void Sudoku::eliminate() {
+bool Sudoku::is_solved() const {
+    bool is_solved = true;
+
     for (auto& region : regions) {
-        region.eliminate();
+        is_solved &= region.is_solved();
     }
+
+    return is_solved;
+}
+
+void Sudoku::eliminate() {
+    while (true) {
+        int current_checksum = checksum();
+
+        for (auto& region : regions) {
+            region.eliminate();
+        }
+
+        if (checksum() == current_checksum) {
+            break;
+        }
+    }
+    
 }
 
 int Sudoku::checksum() {

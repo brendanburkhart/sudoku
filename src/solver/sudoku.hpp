@@ -13,6 +13,8 @@ namespace solver {
 class Sudoku {
 public:
     Sudoku();
+    Sudoku(const Sudoku& sudoku) noexcept;
+    Sudoku(Sudoku&& sudoku) noexcept;
 
     void set_cell(size_t i, size_t j, int value);
     Options& get_cell(size_t i, size_t j);
@@ -31,6 +33,8 @@ private:
 
     void eliminate();
     int checksum();
+
+    void construct_regions();
 };
 
 }
