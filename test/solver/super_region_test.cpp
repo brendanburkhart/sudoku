@@ -3,9 +3,9 @@
 #include "gtest/gtest.h"
 
 std::array<solver::Options, 9> construct_data() {
-    solver::Options seven = solver::Options::from_value(7);
     solver::Options value = solver::Options::all();
-    value.remove(seven);
+    value.remove(solver::Options::from_value(7));
+    value.remove(solver::Options::from_value(6));
 
     return std::array<solver::Options, 9>({
         value,
@@ -59,6 +59,14 @@ protected:
         data2[6].add(solver::Options::from_value(7));
         data3[6].add(solver::Options::from_value(7));
 
+        data1[0].add(solver::Options::from_value(6));
+        data1[1].add(solver::Options::from_value(6));
+        data1[2].add(solver::Options::from_value(6));
+        data2[0].add(solver::Options::from_value(6));
+        data2[7].add(solver::Options::from_value(6));
+        data3[1].add(solver::Options::from_value(6));
+        data3[4].add(solver::Options::from_value(6));
+
         region1.eliminate();
         region2.eliminate();
         region3.eliminate();
@@ -85,3 +93,12 @@ TEST_F(SuperRegionTest, restrict_between) {
 
     EXPECT_EQ(false, data2[6].overlaps(solver::Options::from_value(7)));
 }
+
+TEST_F(SuperRegionTest, restrict_within) {
+    EXPECT_EQ(true, data2[0].overlaps(solver::Options::from_value(6)));
+
+    super_region.restrict_within(0);
+
+    EXPECT_EQ(false, data2[0].overlaps(solver::Options::from_value(6)));
+}
+

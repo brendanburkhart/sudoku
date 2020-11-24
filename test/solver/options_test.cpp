@@ -4,19 +4,37 @@
 
 #include "gtest/gtest.h"
 
-TEST(OptionsTest, contains_single) {
-    const solver::Options all;
+TEST(OptionsTest, default_contains_all) {
+    const solver::Options default;
+
+    for (int n = 1; n <= 9; n++) {
+        EXPECT_EQ(true, default.overlaps(solver::Options::from_value(n)));
+    }
+}
+
+TEST(OptionsTest, all_contains_all) {
+    const solver::Options all = solver::Options::all();
 
     for (int n = 1; n <= 9; n++) {
         EXPECT_EQ(true, all.overlaps(solver::Options::from_value(n)));
     }
+}
 
+TEST(OptionsTest, contains_single) {
     for (int n = 1; n <= 9; n++) {
         const solver::Options options(solver::Options::from_value(n));
 
         for (int m = 1; m <= 9; m++) {
             EXPECT_EQ(n == m, options.overlaps(solver::Options::from_value(m)));
         }
+    }
+}
+
+TEST(OptionsTest, none_contains_none) {
+    const solver::Options none = solver::Options::none();
+
+    for (int n = 1; n <= 9; n++) {
+        EXPECT_EQ(false, none.overlaps(solver::Options::from_value(n)));
     }
 }
 
@@ -154,7 +172,7 @@ TEST(OptionsTest, add) {
     }
 }
 
-TEST(OptionsTest, combine) {
+TEST(OptionsTest, restrict_to) {
     solver::Options options;
     options.remove(solver::Options::from_value(7));
     options.remove(solver::Options::from_value(3));
