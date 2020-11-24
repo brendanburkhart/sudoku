@@ -84,21 +84,8 @@ TEST(RegionTest, elimination) {
 TEST(RegionTest, single_exclude) {
     std::array<solver::Options, 9> data;
 
-    data[0] = solver::Options(1);
-    data[1] = solver::Options(2);
-    data[2] = solver::Options(3);
-    data[3] = solver::Options();
-    data[4] = solver::Options();
-    data[5] = solver::Options(6);
-    data[6] = solver::Options(7);
-    data[7] = solver::Options();
-    data[8] = solver::Options(9);
-
     solver::Options available;
     available.remove(4);
-
-    data[4].restrict_to(available);
-    data[7].restrict_to(available);
 
     solver::Region region(std::array<solver::Options*, 9>{
         &data[0],
@@ -111,6 +98,19 @@ TEST(RegionTest, single_exclude) {
         &data[7],
         &data[8],
     });
+
+    data[0] = solver::Options(1);
+    data[1] = solver::Options(2);
+    data[2] = solver::Options(3);
+    data[3] = solver::Options();
+    data[4] = solver::Options();
+    data[5] = solver::Options(6);
+    data[6] = solver::Options(7);
+    data[7] = solver::Options();
+    data[8] = solver::Options(9);
+
+    data[4].restrict_to(available);
+    data[7].restrict_to(available);
 
     EXPECT_EQ(true, data[3].overlaps(4));
     EXPECT_EQ(true, data[3].overlaps(6));
@@ -125,6 +125,7 @@ TEST(RegionTest, single_exclude) {
     EXPECT_EQ(1, data[0].value());
     EXPECT_EQ(2, data[1].value());
     EXPECT_EQ(3, data[2].value());
+    EXPECT_EQ(4, data[3].value());
     EXPECT_EQ(6, data[5].value());
     EXPECT_EQ(7, data[6].value());
     EXPECT_EQ(9, data[8].value());
@@ -254,6 +255,41 @@ TEST(RegionTest, restrict_to_segment) {
     for (size_t i = 0; i < 9; i++)
     {
         bool could_be_seven = i >= 3 && i < 6;
+        EXPECT_EQ(could_be_seven, data[i].overlaps(options));
+    }
+}
+
+TEST(RegionTest, exclude_from_segment) {
+    std::array<solver::Options, 9> data;
+
+    data[0] = solver::Options();
+    data[1] = solver::Options();
+    data[2] = solver::Options();
+    data[3] = solver::Options();
+    data[4] = solver::Options();
+    data[5] = solver::Options();
+    data[6] = solver::Options();
+    data[7] = solver::Options();
+    data[8] = solver::Options();
+
+    solver::Region region(std::array<solver::Options*, 9>{
+        &data[0],
+        & data[1],
+        & data[2],
+        & data[3],
+        & data[4],
+        & data[5],
+        & data[6],
+        & data[7],
+        & data[8],
+    });
+
+    const solver::Options options(7);
+
+    region.exclude_from_segment(1, options);
+    for (size_t i = 0; i < 9; i++)
+    {
+        bool could_be_seven = i < 3 || i >= 6;
         EXPECT_EQ(could_be_seven, data[i].overlaps(options));
     }
 }
