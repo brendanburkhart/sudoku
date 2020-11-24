@@ -42,6 +42,90 @@ TEST(RegionTest, available_in_segment) {
     EXPECT_EQ(true, third_segment.overlaps(8));
 }
 
+TEST(RegionTest, is_solved) {
+    std::array<solver::Options, 9> data;
+
+    data[0] = solver::Options(6);
+    data[1] = solver::Options(3);
+    data[2] = solver::Options(8);
+    data[3] = solver::Options(2);
+    data[4] = solver::Options(1);
+    data[5] = solver::Options(4);
+    data[6] = solver::Options(9);
+    data[7] = solver::Options(7);
+    data[8] = solver::Options(5);
+
+    solver::Region region(std::array<solver::Options*, 9>{
+        &data[0],
+        &data[1],
+        &data[2],
+        &data[3],
+        &data[4],
+        &data[5],
+        &data[6],
+        &data[7],
+        &data[8],
+    });
+
+    EXPECT_EQ(true, region.is_solved());
+}
+
+TEST(RegionTest, has_duplicates) {
+    std::array<solver::Options, 9> data;
+
+    data[0] = solver::Options(6);
+    data[1] = solver::Options(3);
+    data[2] = solver::Options(6);
+    data[3] = solver::Options(2);
+    data[4] = solver::Options(1);
+    data[5] = solver::Options(4);
+    data[6] = solver::Options(9);
+    data[7] = solver::Options(7);
+    data[8] = solver::Options(5);
+
+    solver::Region region(std::array<solver::Options*, 9>{
+        &data[0],
+        &data[1],
+        &data[2],
+        &data[3],
+        &data[4],
+        &data[5],
+        &data[6],
+        &data[7],
+        &data[8],
+    });
+
+    EXPECT_EQ(false, region.is_solved());
+}
+
+TEST(RegionTest, missing_value) {
+    std::array<solver::Options, 9> data;
+
+    data[0] = solver::Options(6);
+    data[1] = solver::Options(3);
+    data[2] = solver::Options(0);
+    data[3] = solver::Options(2);
+    data[4] = solver::Options(1);
+    data[5] = solver::Options(4);
+    data[6] = solver::Options(9);
+    data[7] = solver::Options(7);
+    data[8] = solver::Options(5);
+
+    solver::Region region(std::array<solver::Options*, 9>{
+        &data[0],
+        &data[1],
+        &data[2],
+        &data[3],
+        &data[4],
+        &data[5],
+        &data[6],
+        &data[7],
+        &data[8],
+    });
+
+    EXPECT_EQ(false, region.is_solved());
+}
+
 TEST(RegionTest, elimination) {
     std::array<solver::Options, 9> data;
 
@@ -239,14 +323,14 @@ TEST(RegionTest, restrict_to_segment) {
 
     solver::Region region(std::array<solver::Options*, 9>{
         &data[0],
-            & data[1],
-            & data[2],
-            & data[3],
-            & data[4],
-            & data[5],
-            & data[6],
-            & data[7],
-            & data[8],
+        &data[1],
+        &data[2],
+        &data[3],
+        &data[4],
+        &data[5],
+        &data[6],
+        &data[7],
+        &data[8],
     });
 
     const solver::Options options(7);
@@ -274,14 +358,14 @@ TEST(RegionTest, exclude_from_segment) {
 
     solver::Region region(std::array<solver::Options*, 9>{
         &data[0],
-        & data[1],
-        & data[2],
-        & data[3],
-        & data[4],
-        & data[5],
-        & data[6],
-        & data[7],
-        & data[8],
+        &data[1],
+        &data[2],
+        &data[3],
+        &data[4],
+        &data[5],
+        &data[6],
+        &data[7],
+        &data[8],
     });
 
     const solver::Options options(7);
