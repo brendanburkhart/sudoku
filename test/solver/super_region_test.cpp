@@ -85,4 +85,3 @@ TEST_F(SuperRegionTest, restrict_between) {
 
     EXPECT_EQ(false, data2[6].overlaps(solver::Options::from_value(7)));
 }
-
