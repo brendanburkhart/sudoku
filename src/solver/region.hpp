@@ -12,8 +12,6 @@ public:
 
     Options available_in_segment(int segment) const;
 
-    bool is_solved() const;
-
     void eliminate();
     void exclude();
     void restrict_to_segment(int segment, const Options& options);

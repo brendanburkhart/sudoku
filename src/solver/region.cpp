@@ -20,20 +20,6 @@ Options Region::available_in_segment(int segment) const {
     return segment_options;
 }
 
-bool Region::is_solved() const {
-    int checksum = 0;
-
-    for (auto member : members) {
-        if (!member->is_solved()) {
-            return false;
-        }
-
-        checksum += member->checksum();
-    }
-
-    return checksum == Options::all().checksum();
-}
-
 void Region::eliminate() {
     std::array<bool, 9> is_solved;
 

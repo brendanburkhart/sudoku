@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 
+#include "../common/sudoku.hpp"
 #include "options.hpp"
 #include "region.hpp"
 #include "super_region.hpp"
@@ -12,12 +13,11 @@ namespace solver {
 
 class Sudoku {
 public:
-    Sudoku();
     Sudoku(const Sudoku& sudoku) noexcept;
     Sudoku(Sudoku&& sudoku) noexcept;
 
-    void set_cell(size_t i, size_t j, int value);
-    Options& get_cell(size_t i, size_t j);
+    static Sudoku construct(const common::Sudoku& puzzle);
+    common::Sudoku solution();
 
     void solve();
     bool is_solved() const;
@@ -30,6 +30,8 @@ private:
     std::vector<SuperRegion> super_regions;
 
     static constexpr int solved_checksum = 9 * Options::all().checksum();
+
+    Sudoku();
 
     void eliminate();
     int checksum();

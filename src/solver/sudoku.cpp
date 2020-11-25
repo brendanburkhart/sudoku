@@ -96,12 +96,31 @@ Sudoku::Sudoku(Sudoku&& sudoku) noexcept : data(std::move(sudoku.data)) {
     construct_regions();
 }
 
-void Sudoku::set_cell(size_t i, size_t j, int value) {
-    data[i][j] = Options::from_value(value);
+Sudoku Sudoku::construct(const common::Sudoku& puzzle) {
+    Sudoku sudoku;
+
+    for (size_t i = 0; i < 9; i++) {
+        for (size_t j = 0; j < 9; j++) {
+            if (puzzle.get_cell(i, j).has_value()) {
+                auto value = Options::from_value(puzzle.get_cell(i, j).value());
+                sudoku.data[i][j] = value;
+            }
+        }
+    }
+
+    return sudoku;
 }
 
-Options& Sudoku::get_cell(size_t i, size_t j) {
-    return data[i][j];
+common::Sudoku Sudoku::solution() {
+    common::Sudoku solution;
+
+    for (size_t i = 0; i < 9; i++) {
+        for (size_t j = 0; j < 9; j++) {
+            solution.set_cell(i, j, data[i][j].value());
+        }
+    }
+
+    return solution;
 }
 
 void Sudoku::solve() {
@@ -137,16 +156,6 @@ void Sudoku::solve() {
             break;
         }
     }
-}
-
-bool Sudoku::is_solved() const {
-    bool is_solved = true;
-
-    for (auto& region : regions) {
-        is_solved &= region.is_solved();
-    }
-
-    return is_solved;
 }
 
 void Sudoku::eliminate() {
