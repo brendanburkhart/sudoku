@@ -12,6 +12,7 @@ set_target_properties(${CMAKE_PROJECT_NAME}_lib PROPERTIES CXX_EXTENSIONS OFF)
 add_subdirectory(benchmark)
 add_subdirectory(common)
 add_subdirectory(solver)
+add_subdirectory(vision)
 
 if(MSVC)
     target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE /W4 /WX /Za)
