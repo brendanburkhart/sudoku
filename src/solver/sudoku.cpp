@@ -111,6 +111,7 @@ Sudoku Sudoku::construct(const common::Sudoku& puzzle) {
     return sudoku;
 }
 
+// Extract solution after solving
 common::Sudoku Sudoku::solution() {
     common::Sudoku solution;
 
@@ -158,6 +159,7 @@ void Sudoku::solve() {
     }
 }
 
+// Eliminates each region until no more elimination can be done
 void Sudoku::eliminate() {
     while (true) {
         int current_checksum = checksum();
@@ -172,6 +174,8 @@ void Sudoku::eliminate() {
     }
 }
 
+// Checksum which monotonically decreases as puzzle is solved
+// Equal to Sudoku::solved_checksum when solved.
 int Sudoku::checksum() {
     int value = 0;
 
