@@ -9,7 +9,7 @@ Region::Region(std::array<Options*, 9> members) : members(members) {}
 Options Region::available_in_segment(int segment) const {
     Options segment_options = Options::none();
 
-    size_t start = size_t{ 3 } * segment;
+    size_t start = size_t{3} * segment;
 
     for (size_t i = start; i < start + 3; i++) {
         if (!members[i]->is_solved()) {
@@ -73,7 +73,7 @@ void Region::exclude() {
 }
 
 void Region::restrict_to_segment(int segment, const Options& options) {
-    size_t start = size_t{ 3 } *segment;
+    size_t start = size_t{3} * segment;
 
     for (size_t i = 0; i < 9; i++) {
         if (i < start || i >= start + 3) {
@@ -83,11 +83,11 @@ void Region::restrict_to_segment(int segment, const Options& options) {
 }
 
 void Region::exclude_from_segment(int segment, const Options& options) {
-    size_t start = size_t{ 3 } *segment;
+    size_t start = size_t{3} * segment;
 
     for (size_t i = start; i < start + 3; i++) {
         members[i]->remove(options);
     }
 }
 
-}
+}  // namespace solver

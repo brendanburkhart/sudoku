@@ -252,8 +252,7 @@ TEST(RegionTest, restrict_to_segment) {
     const solver::Options options = solver::Options::from_value(7);
 
     region.restrict_to_segment(1, options);
-    for (size_t i = 0; i < 9; i++)
-    {
+    for (size_t i = 0; i < 9; i++) {
         bool could_be_seven = i >= 3 && i < 6;
         EXPECT_EQ(could_be_seven, data[i].overlaps(options));
     }
@@ -287,8 +286,7 @@ TEST(RegionTest, exclude_from_segment) {
     const solver::Options options = solver::Options::from_value(7);
 
     region.exclude_from_segment(1, options);
-    for (size_t i = 0; i < 9; i++)
-    {
+    for (size_t i = 0; i < 9; i++) {
         bool could_be_seven = i < 3 || i >= 6;
         EXPECT_EQ(could_be_seven, data[i].overlaps(options));
     }

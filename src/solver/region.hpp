@@ -23,4 +23,4 @@ private:
     Options available;
 };
 
-}
+}  // namespace solver

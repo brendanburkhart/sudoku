@@ -49,10 +49,7 @@ solver::SuperRegion construct_super_region(solver::Region& region1, solver::Regi
 class SuperRegionTest : public ::testing::Test {
 protected:
     SuperRegionTest()
-        : data1(construct_data()), data2(construct_data()), data3(construct_data()), 
-          region1(construct_region(data1)), region2(construct_region(data2)), region3(construct_region(data3)),
-          super_region(construct_super_region(region1, region2, region3)) {
-
+        : data1(construct_data()), data2(construct_data()), data3(construct_data()), region1(construct_region(data1)), region2(construct_region(data2)), region3(construct_region(data3)), super_region(construct_super_region(region1, region2, region3)) {
         data2[3].add(solver::Options::from_value(7));
         data2[4].add(solver::Options::from_value(7));
         data2[5].add(solver::Options::from_value(7));
@@ -101,4 +98,3 @@ TEST_F(SuperRegionTest, restrict_within) {
 
     EXPECT_EQ(false, data2[0].overlaps(solver::Options::from_value(6)));
 }
-

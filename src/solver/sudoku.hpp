@@ -38,4 +38,4 @@ private:
     void construct_regions();
 };
 
-}
+}  // namespace solver

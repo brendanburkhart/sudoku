@@ -1,8 +1,8 @@
 #include <chrono>
 #include <iostream>
 
-#include "../solver/sudoku.hpp"
 #include "../common/sudoku.hpp"
+#include "../solver/sudoku.hpp"
 
 void construct_puzzle_1(common::Sudoku& puzzle) {
     puzzle.set_cell(0, 0, 4);

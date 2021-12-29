@@ -55,7 +55,7 @@ void Options::restrict_to(const Options& values) {
 }
 
 std::ostream& operator<<(std::ostream& output, const Options& values) {
-    return output << values.value();;
+    return output << values.value();
 }
 
-}
+}  // namespace solver

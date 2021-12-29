@@ -17,4 +17,4 @@ private:
     std::array<Region*, 3> regions;
 };
 
-}
+}  // namespace solver

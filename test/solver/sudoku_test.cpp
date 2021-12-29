@@ -1,9 +1,8 @@
-#include "../../src/solver/super_region.hpp"
-
-#include "gtest/gtest.h"
-
 #include "../../src/common/sudoku.hpp"
+
 #include "../../src/solver/sudoku.hpp"
+#include "../../src/solver/super_region.hpp"
+#include "gtest/gtest.h"
 
 common::Sudoku construct_puzzle_1() {
     common::Sudoku puzzle;

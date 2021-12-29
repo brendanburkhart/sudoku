@@ -23,4 +23,4 @@ private:
     std::array<std::array<int, 9>, 9> data;
 };
 
-}
+}  // namespace common

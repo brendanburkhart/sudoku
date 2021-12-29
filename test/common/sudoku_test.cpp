@@ -234,4 +234,3 @@ TEST(SudokuTest, is_solution_to) {
     EXPECT_EQ(false, puzzle.is_solution_to(solution));
     EXPECT_EQ(false, puzzle.is_solution_to(puzzle));
 }
-

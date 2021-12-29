@@ -62,7 +62,7 @@ TEST(OptionsTest, value_accessor) {
 
 TEST(OptionsTest, checksum_disordered_one) {
     int all = 0;
-    std::array<int, 9> values{ 3, 1, 7, 5, 4, 9, 8, 2, 6 };
+    std::array<int, 9> values{3, 1, 7, 5, 4, 9, 8, 2, 6};
 
     solver::Options options;
 
@@ -74,12 +74,12 @@ TEST(OptionsTest, checksum_disordered_one) {
         all += solver::Options::from_value(n).checksum();
     }
 
-    EXPECT_EQ(all, solver::Options().checksum());   
+    EXPECT_EQ(all, solver::Options().checksum());
 }
 
 TEST(OptionsTest, checksum_disordered_two) {
     int all = 0;
-    std::array<int, 9> values{ 8, 3, 5, 6, 2, 1, 9, 4, 7 };
+    std::array<int, 9> values{8, 3, 5, 6, 2, 1, 9, 4, 7};
 
     solver::Options options;
 
@@ -96,7 +96,7 @@ TEST(OptionsTest, checksum_disordered_two) {
 
 TEST(OptionsTest, count_order_one) {
     int count = 9;
-    std::array<int, 9> values{ 3, 1, 7, 5, 4, 9, 8, 2, 6 };
+    std::array<int, 9> values{3, 1, 7, 5, 4, 9, 8, 2, 6};
 
     solver::Options options;
 
@@ -111,7 +111,7 @@ TEST(OptionsTest, count_order_one) {
 
 TEST(OptionsTest, count_order_two) {
     int count = 9;
-    std::array<int, 9> values{ 8, 3, 5, 6, 2, 1, 9, 4, 7 };
+    std::array<int, 9> values{8, 3, 5, 6, 2, 1, 9, 4, 7};
 
     solver::Options options;
 
@@ -142,7 +142,7 @@ TEST(OptionsTest, remove_ordered) {
 }
 
 TEST(OptionsTest, remove_disordered) {
-    std::array<int, 8> values { 3, 1, 7, 4, 5, 9, 8, 2 };
+    std::array<int, 8> values{3, 1, 7, 4, 5, 9, 8, 2};
 
     solver::Options options;
 
@@ -161,7 +161,7 @@ TEST(OptionsTest, remove_disordered) {
 }
 
 TEST(OptionsTest, add) {
-    std::array<int, 8> values{ 3, 1, 7, 4, 5, 9, 8, 2 };
+    std::array<int, 8> values{3, 1, 7, 4, 5, 9, 8, 2};
 
     solver::Options options = solver::Options::from_value(0);
 

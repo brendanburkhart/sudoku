@@ -45,4 +45,4 @@ private:
     int options;
 };
 
-}
+}  // namespace solver

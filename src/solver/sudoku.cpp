@@ -6,8 +6,7 @@ void Sudoku::construct_regions() {
     regions.reserve(3 * 9);
 
     // Construct row regions
-    for (size_t i = 0; i < 9; i++)
-    {
+    for (size_t i = 0; i < 9; i++) {
         std::array<Options*, 9> members{
             &data[i][0],
             &data[i][1],
@@ -24,8 +23,7 @@ void Sudoku::construct_regions() {
     }
 
     // Construct column regions
-    for (size_t i = 0; i < 9; i++)
-    {
+    for (size_t i = 0; i < 9; i++) {
         std::array<Options*, 9> members{
             &data[0][i],
             &data[1][i],
@@ -64,20 +62,19 @@ void Sudoku::construct_regions() {
     }
 
     // Construct super regions
-    for (size_t i = 0; i < 3; i++)
-    {
+    for (size_t i = 0; i < 3; i++) {
         std::array<Region*, 3> horizontal_regions{
-                &regions[(i * 3)],
-                &regions[(i * 3) + 1],
-                &regions[(i * 3) + 2],
+            &regions[(i * 3)],
+            &regions[(i * 3) + 1],
+            &regions[(i * 3) + 2],
         };
 
         super_regions.push_back(SuperRegion(horizontal_regions));
 
         std::array<Region*, 3> vertical_regions{
-                &regions[9 + (i * 3)],
-                &regions[9 + (i * 3) + 1],
-                &regions[9 + (i * 3) + 2],
+            &regions[9 + (i * 3)],
+            &regions[9 + (i * 3) + 1],
+            &regions[9 + (i * 3) + 2],
         };
 
         super_regions.push_back(SuperRegion(vertical_regions));
@@ -132,10 +129,10 @@ void Sudoku::solve() {
 
         for (auto& region : regions) {
             region.exclude();
-            
+
             eliminate();
         }
-        
+
         for (auto& super_region : super_regions) {
             for (int j = 0; j < 3; j++) {
                 super_region.restrict_between(j);
@@ -200,4 +197,4 @@ std::ostream& operator<<(std::ostream& output, const Sudoku& sudoku) {
     return output << std::endl;
 }
 
-}
+}  // namespace solver

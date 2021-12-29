@@ -35,13 +35,13 @@ bool Sudoku::is_valid() const {
         for (size_t j = 0; j < 9; j++) {
             if (row_values.count(data[i][j]) != 0) {
                 return false;
-            } else if(data[i][j] != 0) {
+            } else if (data[i][j] != 0) {
                 row_values.insert(data[i][j]);
             }
 
             if (column_values.count(data[j][i]) != 0) {
                 return false;
-            } else if(data[j][i] != 0) {
+            } else if (data[j][i] != 0) {
                 column_values.insert(data[j][i]);
             }
 
@@ -49,7 +49,7 @@ bool Sudoku::is_valid() const {
             size_t box_j = 3 * (i % 3) + (j % 3);
             if (box_values.count(data[box_i][box_j]) != 0) {
                 return false;
-            } else if(data[box_i][box_j] != 0) {
+            } else if (data[box_i][box_j] != 0) {
                 box_values.insert(data[box_i][box_j]);
             }
         }
@@ -96,7 +96,7 @@ std::ostream& operator<<(std::ostream& output, const Sudoku& sudoku) {
             if (cell != 0) {
                 output << cell << ", ";
             } else {
-                output << " " << ", ";
+                output << " , ";
             }
         }
 
@@ -106,4 +106,4 @@ std::ostream& operator<<(std::ostream& output, const Sudoku& sudoku) {
     return output << std::endl;
 }
 
-}
+}  // namespace common
