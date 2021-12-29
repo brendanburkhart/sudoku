@@ -6,7 +6,7 @@
 #include "vision/vision.hpp"
 
 int main() {
-    vision::Vision vision;
+    vision::Vision vision(true);
 
     bool ok = vision.init();
     if (!ok) {

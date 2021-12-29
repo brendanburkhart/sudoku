@@ -10,6 +10,8 @@
 
 namespace vision {
 
+Vision::Vision(bool debug_mode) : debug_mode(debug_mode) {}
+
 bool Vision::init() {
     capture.open(0);
 
@@ -22,7 +24,8 @@ bool Vision::capture_frame() {
 }
 
 std::optional<common::Sudoku> Vision::extract_puzzle() {
-    GridDetection detection = GridDetection::construct(image);
+    GridDetection::Parameters defaults = GridDetection::Parameters::default();
+    GridDetection detection = GridDetection::construct(image, defaults);
 
     if (!detection.grid_found()) {
         return std::nullopt;
@@ -75,8 +78,8 @@ bool Vision::display_solution() {
         }
     }
 
+    cv::imshow("Raw", image);
     cv::imshow("Solution", solution);
-    cv::imshow("Solution", image);
 
     if (cv::waitKey(5) >= 0) {
         return false;

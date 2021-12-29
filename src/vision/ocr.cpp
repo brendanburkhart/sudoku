@@ -13,6 +13,8 @@ namespace vision {
 OCR::OCR() : tesseract(std::make_unique<tesseract::TessBaseAPI>()) {
     tesseract->Init("tesseract_data", "eng", tesseract::OEM_LSTM_ONLY);
     tesseract->SetDebugVariable("debug_file", "/dev/null");
+    tesseract->SetVariable("tessedit_char_whitelist", "123456789");
+
     tesseract->SetPageSegMode(tesseract::PSM_SINGLE_CHAR);
 }
 
@@ -26,19 +28,20 @@ cv::Mat OCR::preprocess(cv::Mat image) {
     //cv::adaptiveThreshold(gray, thresholded, 255, cv::ADAPTIVE_THRESH_GAUSSIAN_C, cv::THRESH_BINARY, 21, 3);
 
     //return thresholded;
+
+    //cv::Mat thresholded;
+    //cv::threshold(image, thresholded, 0, 255, cv::THRESH_BINARY + cv::THRESH_OTSU);
+
     return image;
 }
 
 std::optional<int> OCR::extract_digit(cv::Mat image) {
     cv::Mat processed = preprocess(image);
 
-    double mean = cv::mean(processed)[0];
-    if (mean > 0.95 * 255.0) {
+    //double mean = cv::mean(processed)[0];
+    /*if (mean > 0.95 * 255.0) {
         return std::nullopt;
-    }
-
-    /*cv::imshow("digit", processed);
-    cv::waitKey(0);*/
+    }*/
 
     tesseract->SetImage(processed.data, processed.cols, processed.rows, static_cast<int>(processed.elemSize()), static_cast<int>(processed.step));
     tesseract->SetSourceResolution(3 * processed.rows);
