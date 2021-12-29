@@ -32,6 +32,13 @@ int main() {
             if (solution.is_solution_to(puzzle)) {
                 vision.add_solution(puzzle, solution);
             }
+            else {
+                std::cout << "Failed to solve" << std::endl;
+                std::cout << puzzle << std::endl;
+            }
+        }
+        else {
+            std::cout << "Failed to find puzzle" << std::endl;
         }
 
         ok = vision.display_solution();

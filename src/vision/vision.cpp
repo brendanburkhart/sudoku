@@ -76,6 +76,7 @@ bool Vision::display_solution() {
     }
 
     cv::imshow("Solution", solution);
+    cv::imshow("Solution", image);
 
     if (cv::waitKey(5) >= 0) {
         return false;

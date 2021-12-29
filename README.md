@@ -4,11 +4,9 @@ Sudoku solver, can detect and solve Sudoku puzzles from an image or video.
 
 ## Building
 
-You will need [CMake](https://cmake.org/) installed in order to build this project.
+You will need [CMake](https://cmake.org/) and [vcpkg](https://github.com/Microsoft/vcpkg) installed in order to build this project.
 
-The Sudoku grid recognition relies on OpenCV for the computer vision and Tesseract for the OCR, both which need to be installed. If OpenCV 4 and Tesseract are installed via [vcpkg](https://github.com/Microsoft/vcpkg), CMake should be able to find them. Otherwise, you will need to modify the CMake file in `src/vision` to locate the headers and libraries for both.
-
-Once OpenCV and Tesseract are installed/built on your local system, CMake should be able to generate build files for your chosen build system.
+The Sudoku grid recognition relies on OpenCV for the computer vision and Tesseract for the OCR, both which need to be installed, as well as GTest for the units tests. The CMake integration for vcpkg should download and build local copies of these dependencies when CMake configuration is run.
 
 ## Usage
 

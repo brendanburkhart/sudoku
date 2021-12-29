@@ -11,7 +11,7 @@ set(SOURCES
         quad.cpp
     )
 
-find_package(OpenCV REQUIRED COMPONENTS core imgproc highgui)
+find_package(OpenCV REQUIRED COMPONENTS core imgproc highgui calib3d)
 find_package(Tesseract REQUIRED)
 
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ${OpenCV_INCLUDE_DIRS})
